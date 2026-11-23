@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import * as db from './db'
+import Toolkit from './Toolkit'
+import Planner from './Planner'
 
 const SECTIONS = [
   ['home', 'Home', 'Início'], ['journey', 'My Learning Journey', 'Meu perfil e metas'],
@@ -9,7 +11,7 @@ const SECTIONS = [
 ] as const
 type Id = typeof SECTIONS[number][0]
 const BOTTOM: Id[] = ['home', 'toolkit', 'planner', 'progress']
-const READY: Id[] = ['home', 'settings']
+const READY: Id[] = ['home', 'toolkit', 'planner', 'settings']
 
 function useCounts() {
   const [c, setC] = useState<Record<string, number>>({})
@@ -76,6 +78,8 @@ export default function App() {
       <nav className="nav" aria-label="Principal"><NavBtns /></nav></aside>
     <main className="main">
       {sec === 'home' && <Home go={go} counts={counts} />}
+      {sec === 'toolkit' && <Toolkit />}
+      {sec === 'planner' && <Planner />}
       {sec === 'settings' && <Settings refresh={refresh} />}
       {!READY.includes(sec) && <><h1>{item[1]}</h1><p className="muted">{item[2]}</p>
         <div className="notice">Esta seção chega nas próximas fases do projeto. A base de dados e a navegação já estão prontas para recebê-la.</div></>}
