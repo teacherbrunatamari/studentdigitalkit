@@ -1,0 +1,14 @@
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tabs button{cursor:pointer;border:1px solid var(--lilac);background:#fff;color:var(--navy);border-radius:999px;padding:9px 16px;min-height:44px;font-weight:500}
+.tabs button[aria-pressed=true]{background:var(--grad);color:#fff;border-color:transparent}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.bar input,.bar select,.form input,.form textarea,.form select{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);width:100%;min-height:44px}
+.bar input{flex:2;min-width:160px}.bar select{flex:1;min-width:140px;width:auto}
+.form{display:grid;gap:12px;margin-bottom:18px}.form label{display:grid;gap:4px;font-weight:600;color:var(--navy);font-size:.92rem}
+.form label.chk{display:flex;align-items:center;gap:10px}.form label.chk input{width:22px;min-height:22px}
+.form textarea{min-height:80px;resize:vertical}.err{color:#a62b4b;font-weight:600}
+.item{margin-bottom:12px}.item h3{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.item p{margin:.3em 0;white-space:pre-wrap}.item p small{color:var(--muted);font-weight:600;display:block}
+.tag{background:var(--soft);color:var(--deep);border-radius:999px;font-size:.75rem;padding:3px 10px;font-weight:600}
+.item.done h3 span:first-child{text-decoration:line-through;opacity:.6}
+.btn.sm{padding:7px 16px;min-height:40px;font-size:.9rem}
