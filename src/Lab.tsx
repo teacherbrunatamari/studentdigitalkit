@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useRecord } from './useRecord'
+import Library from './Library'
 const C: [string, string[]][] = [
   ['Keep the Conversation Going', ['Mostrar interesse, fazer perguntas, dar opinião, ampliar respostas curtas e mudar de assunto com naturalidade.', "That's interesting. How did that happen?", 'What makes you say that?', 'From my experience...', "That's a good point.", 'Could you tell me more about it?']],
   ['Communication Toolkit', ['Quando faltar uma palavra: parafrasear, descrever, dar exemplos, pedir esclarecimento, checar compreensão, reformular e ganhar tempo.', 'Let me put it another way.', 'What I mean is...', "It's something you use to...", 'Could you clarify that?', 'Let me think for a second.']]]
@@ -16,9 +18,12 @@ function Note({ id }: { id: string }) {
   return <label className="form">Minhas notas<textarea value={d.text ?? ''} onChange={e => set('text', e.target.value)} /></label>
 }
 export default function Lab() {
+  const [tab, setTab] = useState(0)
   return <><h1>Communication Lab</h1><p className="muted">Comunicação na prática: o foco é se fazer entender, não ser perfeito. Adapte as frases ao seu nível.</p>
-    {C.map(([t, [d, ...ex]]) => <article key={t} className="card item"><h3>{t}</h3><p>{d}</p>{ex.map(e => <p key={e}>• {e}</p>)}</article>)}
-    <h2>Real-Life English</h2>
+    <div className="tabs">{['Expression Library', 'Conversation Skills', 'Real-Life English'].map((n, i) => <button key={n} aria-pressed={tab === i} onClick={() => setTab(i)}>{n}</button>)}</div>
+    {tab === 0 && <Library />}
+    {tab === 1 && C.map(([t, [d, ...ex]]) => <article key={t} className="card item"><h3>{t}</h3><p>{d}</p>{ex.map(e => <p key={e}>• {e}</p>)}</article>)}
+    {tab === 2 && <><h2>Real-Life English</h2>
     {R.map(([t, o, e, v, c]) => <details key={t} className="card item"><summary><b>{t}</b></summary>
-      <p><small>Objetivo</small>{o}</p><p><small>Useful expressions</small>{e}</p><p><small>Vocabulary</small>{v}</p><p><small>Desafio</small>{c}</p><Note id={t} /></details>)}</>
+      <p><small>Objetivo</small>{o}</p><p><small>Useful expressions</small>{e}</p><p><small>Vocabulary</small>{v}</p><p><small>Desafio</small>{c}</p><Note id={t} /></details>)}</>}</>
 }
