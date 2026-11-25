@@ -1,7 +1,7 @@
 import { useRecord } from './useRecord'
 const C: [string, string[]][] = [
   ['Keep the Conversation Going', ['Mostrar interesse, fazer perguntas, dar opinião, ampliar respostas curtas e mudar de assunto com naturalidade.', "That's interesting. How did that happen?", 'What makes you say that?', 'From my experience...', "That's a good point.", 'Could you tell me more about it?']],
-  ['Communication Toolkit', ['Quando faltar uma palavra: parafrasear, descrever, dar exemplos, pedir esclarecimento, checar compreensão, reformular e ganhar tempo.', 'Let me put it another way.', 'What I mean is...', "It's something you use to...", 'Could you clarify that?', 'Let me think for a second.']]
+  ['Communication Toolkit', ['Quando faltar uma palavra: parafrasear, descrever, dar exemplos, pedir esclarecimento, checar compreensão, reformular e ganhar tempo.', 'Let me put it another way.', 'What I mean is...', "It's something you use to...", 'Could you clarify that?', 'Let me think for a second.']]]
 const R: [string, string, string, string, string][] = [
   ['Professional meetings', 'Participar e opinar com clareza.', 'I\'d like to add something. / Could we go back to...?', 'agenda, deadline, follow-up', 'Dê sua opinião sobre um prazo em 3 frases.'],
   ['Job interviews', 'Falar das suas experiências e pontos fortes.', 'One of my strengths is... / In my previous role...', 'achievement, skill, responsibility', 'Responda: "Tell me about yourself" em 1 minuto.'],
