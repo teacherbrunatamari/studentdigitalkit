@@ -1,0 +1,15 @@
+import Worksheet from './Worksheet'
+const S: [string, string, string, string, string, string][] = [
+  ['Active Recall', 'Buscar a informação na memória em vez de só reler as anotações.', 'O esforço de lembrar fortalece a memória.', 'Feche o caderno e escreva as palavras da aula; explique uma regra de gramática sem olhar; grave um resumo falado.', 'Após a aula, escreva 5 expressões que lembra. Depois confira e anote o que faltou.', 'Feche esta página e diga em voz alta o que estudou ontem.'],
+  ['Spaced Repetition', 'Revisar em intervalos cada vez maiores.', 'Rever pouco antes de esquecer consolida o aprendizado.', 'Revisão sugerida: no mesmo dia, no dia seguinte, cerca de 3 dias depois, 1 semana depois e depois conforme precisar.', 'Estudou "make a decision" hoje? Reveja amanhã, em 3 dias e em 1 semana.', 'Registre abaixo o que estudou e as datas de revisão.'],
+  ['Interleaved Practice', 'Alternar habilidades em vez de repetir só uma.', 'Alternar exige escolher a estratégia certa a cada vez.', 'Combine vocabulário, escuta, gramática aplicada e fala na mesma sessão.', '10 min de vocabulário, 10 de escuta, 10 escrevendo frases com o que ouviu.', 'Monte uma sessão com 3 habilidades diferentes esta semana.'],
+  ['Dual Coding', 'Combinar palavras e imagens.', 'Duas formas de representar ajudam a lembrar.', 'Mapas mentais, diagramas, associações visuais e resumos visuais de gramática.', 'Desenhe uma linha do tempo para Present Perfect vs Past Simple.', 'Faça um mapa mental de um tema do seu trabalho.'],
+  ['Elaboration', 'Conectar o novo ao que você já sabe.', 'Explicar e relacionar cria ligações mais fortes.', 'Pergunte: Por que isso acontece? Quando eu usaria essa expressão? Como se relaciona com minha vida profissional? Consigo explicar com minhas palavras?', '"I\'m looking forward to…" → usei em e-mails de fim de reunião.', 'Escolha uma expressão nova e responda às 4 perguntas.'],
+  ['Focused Study Sessions', 'Sessões curtas e com foco.', 'Foco curto é mais fácil de manter e de repetir.', 'Sessão de 20 min: 3 min lembrar o anterior; 10 min em uma tarefa; 5 min produzir algo em inglês; 2 min refletir e planejar.', 'Tarefa: phrasal verbs. Produção: 3 frases suas.', 'Teste uma sessão de 20 min.']]
+const L = ['O que é', 'Por que funciona', 'Como usar no inglês', 'Exemplo prático', 'Experimente']
+export default function Strategies() {
+  return <><h1>Study Strategies</h1><p className="muted">Aprenda a estudar. Nenhuma técnica funciona igual para todo mundo: experimente e adapte.</p>
+    {S.map(s => <details key={s[0]} className="card item"><summary><b>{s[0]}</b></summary>{L.map((l, i) => <p key={l}><small>{l}</small>{s[i + 1]}</p>)}</details>)}
+    <Worksheet collection="reviews" title="Meu registro de revisões (Spaced Repetition)" intro="Anote o que estudou e as datas em que revisou." empty="Nenhuma revisão registrada ainda."
+      titleKey="item" defaults={{ date: new Date().toISOString().slice(0, 10) }} fields={[{ key: 'item', label: 'O que estudei', required: true }, { key: 'date', label: 'Data do estudo', type: 'date' }, { key: 'reviews', label: 'Datas das revisões', type: 'area' }]} /></>
+}

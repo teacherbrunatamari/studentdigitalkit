@@ -2,6 +2,11 @@ import { useEffect, useState, useCallback } from 'react'
 import * as db from './db'
 import Toolkit from './Toolkit'
 import Planner from './Planner'
+import Journey from './Journey'
+import Strategies from './Strategies'
+import Lab from './Lab'
+import Everywhere from './Everywhere'
+import Progress from './Progress'
 
 const SECTIONS = [
   ['home', 'Home', 'Início'], ['journey', 'My Learning Journey', 'Meu perfil e metas'],
@@ -11,8 +16,10 @@ const SECTIONS = [
 ] as const
 type Id = typeof SECTIONS[number][0]
 const BOTTOM: Id[] = ['home', 'toolkit', 'planner', 'progress']
-const READY: Id[] = ['home', 'toolkit', 'planner', 'settings']
+const READY: Id[] = SECTIONS.map(s => s[0])
 
+const recentIds = (): string[] => { try { return JSON.parse(localStorage.getItem('recent') || '[]') } catch { return [] } }
+const FOCUS: [string, string, Id][] = [['Vocabulary', 'Revise 5 palavras do seu caderno e escreva uma frase sua com cada uma. (15 min)', 'toolkit'], ['Grammar', 'Releia uma nota de gramática e crie 3 exemplos novos. (15 min)', 'toolkit'], ['Listening', 'Ouça um conteúdo curto em inglês e registre a ideia principal. (10 min)', 'everywhere'], ['Speaking', 'Grave um áudio de 2 minutos sobre o seu dia. (10 min)', 'lab'], ['Reading', 'Leia um texto curto e anote 3 expressões. (10 min)', 'everywhere'], ['Revision', 'Revise seus erros recentes no diário. (15 min)', 'toolkit']]
 function useCounts() {
   const [c, setC] = useState<Record<string, number>>({})
   const load = useCallback(async () => {
@@ -29,6 +36,8 @@ function Home({ go, counts }: { go: (s: Id) => void; counts: Record<string, numb
   const stats: [string, string][] = [['vocabulary', 'Palavras salvas'], ['grammar', 'Notas de gramática'], ['mistakes', 'Erros registrados'], ['log', 'Registros de escuta/leitura']]
   return <>
     <section className="hero"><h1>Welcome back! Ready to make progress?</h1><p>Small steps. Meaningful practice. Better communication.</p></section>
+    {(() => { const f = FOCUS[Math.floor(Date.now() / 864e5) % FOCUS.length]; return <div className="card" style={{ marginBottom: 20 }}><h3>Daily Focus · {f[0]}</h3><p>{f[1]}</p><button className="btn" onClick={() => go(f[2])}>Start practicing</button></div> })()}
+    {recentIds().length > 0 && <><h2>Continue learning</h2><div className="row" style={{ marginBottom: 20 }}>{recentIds().map(id => <button key={id} className="btn ghost" onClick={() => go(id as Id)}>{SECTIONS.find(x => x[0] === id)?.[1]}</button>)}</div></>}
     <h2>Meu panorama</h2>
     <div className="grid">{stats.map(([k, l]) => <div className="card stat" key={k}><b>{counts[k] ?? 0}</b>{l}</div>)}</div>
     {total === 0 && <div className="notice">Você ainda não tem registros. Os números acima refletem apenas o que você salvar aqui, no seu aparelho.</div>}
@@ -69,7 +78,7 @@ export default function App() {
   const [sec, setSec] = useState<Id>(() => (location.hash.slice(1) as Id) || 'home')
   const [more, setMore] = useState(false)
   const [counts, refresh] = useCounts()
-  const go = (s: Id) => { setSec(s); setMore(false); location.hash = s; refresh(); scrollTo(0, 0) }
+  const go = (s: Id) => { if (s !== 'home' && s !== 'settings') localStorage.setItem('recent', JSON.stringify([s, ...recentIds().filter(x => x !== s)].slice(0, 3))); setSec(s); setMore(false); location.hash = s; refresh(); scrollTo(0, 0) }
   const item = SECTIONS.find(s => s[0] === sec) ?? SECTIONS[0]
   const NavBtns = ({ ids }: { ids?: readonly Id[] }) => <>{SECTIONS.filter(s => !ids || ids.includes(s[0])).map(([id, n]) =>
     <button key={id} aria-current={sec === id ? 'page' : undefined} onClick={() => go(id)}>{n}</button>)}</>
@@ -78,6 +87,11 @@ export default function App() {
       <nav className="nav" aria-label="Principal"><NavBtns /></nav></aside>
     <main className="main">
       {sec === 'home' && <Home go={go} counts={counts} />}
+      {sec === 'journey' && <Journey />}
+      {sec === 'strategies' && <Strategies />}
+      {sec === 'lab' && <Lab />}
+      {sec === 'everywhere' && <Everywhere />}
+      {sec === 'progress' && <Progress />}
       {sec === 'toolkit' && <Toolkit />}
       {sec === 'planner' && <Planner />}
       {sec === 'settings' && <Settings refresh={refresh} />}
